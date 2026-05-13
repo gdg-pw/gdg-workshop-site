@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="./icon.png" />
+    <title>Warsztaty | GDG On Campus PW</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1E1F21;
+            --blue: #4285F4;
+            --red: #E74639;
+            --yellow: #FBBC04;
+            --green: #34A853;
+            --gray-border: #5F6468;
+            --white: #E8EAED;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            background-color: var(--bg);
+            color: var(--white);
+            font-family: 'Google Sans Code', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .code-symbol {
+            position: absolute;
+            opacity: 0.10;
+            animation: floatSymbol 15s infinite linear;
+            font-size: 1.1rem;
+        }
+
+        @keyframes floatSymbol {
+            from { transform: translateY(110vh) rotate(0deg); }
+            to   { transform: translateY(-20vh) rotate(360deg); }
+        }
+
+        @keyframes fallStar {
+            from { transform: translateY(-10vh) rotate(0deg); }
+            to   { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            width: 90%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 48px 0 64px;
+        }
+
+        /* Logo */
+        .branding {
+            margin-bottom: 36px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .main-logo {
+            width: 520px;
+            height: auto;
+            max-width: 95%;
+            transition: filter 0.4s ease;
+        }
+        @keyframes logoShake {
+            0%,100% { transform: translateX(0) rotate(0deg); }
+            10%      { transform: translateX(-8px) rotate(-3deg); }
+            20%      { transform: translateX(8px) rotate(3deg); }
+            30%      { transform: translateX(-6px) rotate(-2deg); }
+            40%      { transform: translateX(6px) rotate(2deg); }
+            50%      { transform: translateX(-4px) rotate(-1deg); }
+            60%      { transform: translateX(4px) rotate(1deg); }
+            70%      { transform: translateX(-2px) rotate(0deg); }
+            80%      { transform: translateX(2px); }
+        }
+
+        .main-logo.shaking {
+            animation: logoShake 0.6s ease;
+        }
+
+        /* Terminal */
+        .terminal-wrapper {
+            position: relative;
+            margin-bottom: 36px;
+            clip-path: inset(-400px -300px 0px -300px);
+        }
+
+        .terminal {
+            background: #1E1F21;
+            border: 3px solid var(--gray-border);
+            border-radius: 20px;
+            padding: 32px 40px;
+            text-align: left;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            position: relative;
+            z-index: 2;
+        }
+
+        .corgi-popup {
+            position: absolute;
+            bottom: 0;
+            right: 6%;
+            width: 300px;
+            max-width: 55vw;
+            transform: translateY(100%);
+            z-index: 1;
+            pointer-events: none;
+            transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .corgi-popup.peeking {
+            transform: translateY(calc(-100% - 40px));
+        }
+
+        .corgi-pop-img {
+            width: 100%;
+            display: block;
+        }
+
+        .woof-bubble {
+            position: absolute;
+            top: -38px;
+            left: 20px;
+            background: var(--white);
+            color: var(--bg);
+            border-radius: 8px;
+            padding: 5px 14px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            white-space: nowrap;
+            transform: scale(0);
+            transform-origin: left bottom;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .woof-bubble.show {
+            transform: scale(1);
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        .terminal-text {
+            font-size: 1.1rem;
+            line-height: 1.75;
+        }
+
+        /* Section label */
+        .section-label {
+            font-size: 0.72rem;
+            opacity: 0.35;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        /* Links grid */
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .link-card {
+            display: block;
+            background: rgba(30, 31, 33, 0.98);
+            border: 3px solid var(--gray-border);
+            border-radius: 16px;
+            padding: 24px 26px;
+            text-decoration: none;
+            color: var(--white);
+            text-align: left;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .link-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 44px rgba(0,0,0,0.5);
+        }
+
+        .link-card.gcp  { border-color: var(--red); }
+        .link-card.gcp:hover  { background: rgba(66,133,244,0.07); }
+        .link-card.lab1 { border-color: var(--green); }
+        .link-card.lab1:hover { background: rgba(52,168,83,0.07); }
+        .link-card.lab2 { border-color: var(--blue); }
+        .link-card.lab2:hover { background: rgba(251,188,4,0.07); }
+        .link-card.lab3 { border-color: var(--yellow); }
+        .link-card.lab3:hover { background: rgba(231,70,57,0.07); }
+
+        .card-prefix {
+            font-size: 0.78rem;
+            margin-bottom: 10px;
+            opacity: 0.65;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-arrow {
+            font-size: 1.1rem;
+            opacity: 0.4;
+            transition: opacity 0.2s, transform 0.2s;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+
+        .link-card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        .card-desc {
+            font-size: 0.82rem;
+            opacity: 0.5;
+            line-height: 1.45;
+        }
+
+        /* Socials */
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 18px;
+            border: 2px solid var(--gray-border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--white);
+            font-size: 0.88rem;
+            opacity: 0.65;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            opacity: 1;
+            border-color: var(--white);
+            transform: translateY(-3px);
+            background: rgba(255,255,255,0.05);
+        }
+
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .container { padding: 28px 0 48px; }
+            .main-logo { width: 290px; }
+            .terminal { padding: 20px 22px; }
+            .terminal-text { font-size: 0.9rem; }
+            .links-grid { grid-template-columns: 1fr; gap: 12px; }
+            .link-card { padding: 18px 20px; }
+            .social-link span { display: none; }
+            .social-link { padding: 11px 14px; }
+            .socials { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bg-canvas"></div>
+
+<div class="container">
+
+    <div class="branding" id="branding">
+        <img src="logo.svg" alt="GDG On Campus PW" class="main-logo" id="main-logo">
+    </div>
+
+    <div class="terminal-wrapper">
+    <div class="corgi-popup" id="corgi-popup">
+        <div class="woof-bubble" id="woof-bubble">woof!</div>
+        <img src="popup.png" alt="" class="corgi-pop-img">
+    </div>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="dot" style="background: var(--red)"></div>
+            <div class="dot" style="background: var(--yellow)"></div>
+            <div class="dot" style="background: var(--green)"></div>
+        </div>
+        <div class="terminal-text" id="terminal-text">
+            <span style="color: var(--green)">[INIT]</span> Witaj na warsztacie GDG On Campus PW!<br>
+            <span style="color: var(--blue)">[INFO]</span> Poniżej znajdziesz wszystkie potrzebne linki.<br>
+            <span style="color: var(--yellow)">[TODO]</span> Zacznij od odebrania kredytów GCP. ↓
+        </div>
+    </div>
+    </div>
+
+    <div class="section-label">// materiały warsztatowe</div>
+    <div class="links-grid">
+
+        <a href="#" class="link-card gcp" target="_blank" rel="noopener">
+            <div class="card-prefix"><span style="color: var(--red)">[GCP]</span> Google Cloud Credits</div>
+            <div class="card-title">Odbierz kredyty GCP <span class="card-arrow">→</span></div>
+            <div class="card-desc">Darmowe środki na Google Cloud Platform dla uczestników warsztatów</div>
+        </a>
+
+        <a href="https://codelabs.developers.google.com/codelabs/flutter-codelab-first?hl=pl#0" class="link-card lab1" target="_blank" rel="noopener">
+            <div class="card-prefix"><span style="color: var(--green)">[LAB]</span> Codelab #1</div>
+            <div class="card-title">Pierwsza aplikacja we Flutterze <span class="card-arrow">→</span></div>
+            <div class="card-desc">Nauczymy się absolutnych podstaw Fluttera robiąc pierwszą aplikację.</div>
+        </a>
+
+        <a href="https://codelabs.developers.google.com/codelabs/flutter-gemini-colorist?hl=pl#0" class="link-card lab2" target="_blank" rel="noopener">
+            <div class="card-prefix"><span style="color: var(--blue)">[LAB]</span> Codelab #2</div>
+            <div class="card-title">Aplikacja webowa z Gemini <span class="card-arrow">→</span></div>
+            <div class="card-desc">Opis drugiego ćwiczenia z platformy Codelabs</div>
+        </a>
+
+        <a href="https://codelabs.developers.google.com/tfagents-flutter/?hl=pl#0" class="link-card lab3" target="_blank" rel="noopener">
+            <div class="card-prefix"><span style="color: var(--yellow)">[LAB]</span> Codelab #3</div>
+            <div class="card-title">Nazwa ćwiczenia #3 <span class="card-arrow">→</span></div>
+            <div class="card-desc">Opis trzeciego ćwiczenia z platformy Codelabs</div>
+        </a>
+
+    </div>
+
+    <div class="section-label">// znajdź nas</div>
+    <div class="socials">
+
+        <a href="https://gdg.community.dev/gdg-on-campus-politechnika-warszawska-warsaw-poland/" class="social-link" target="_blank" rel="noopener">
+            <img src="socials/gdg.svg" width="22" height="22" alt="">
+            <span>GDG Community</span>
+        </a>
+
+        <a href="https://www.instagram.com/gdg_pw/" class="social-link" target="_blank" rel="noopener">
+            <img src="socials/instagram.svg" width="22" height="22" alt="">
+            <span>Instagram</span>
+        </a>
+
+        <a href="https://www.facebook.com/gdg.pw" class="social-link" target="_blank" rel="noopener">
+            <img src="socials/facebook.svg" width="22" height="22" alt="">
+            <span>Facebook</span>
+        </a>
+
+        <a href="https://discord.com/invite/vNW4vXVwqH" class="social-link" target="_blank" rel="noopener">
+            <img src="socials/discord.svg" width="22" height="22" alt="">
+            <span>Discord</span>
+        </a>
+
+        <!-- <a href="https://www.linkedin.com/company/google-developer-group-pw/" class="social-link" target="_blank" rel="noopener">
+            <img src="socials/linkedin.svg" width="22" height="22" alt="">
+            <span>LinkedIn</span>
+        </a> -->
+
+        
+
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('bg-canvas');
+    const colors = ['#4285F4', '#E74639', '#FBBC04', '#34A853'];
+    const symbols = ['{ }', '< >', '[ ]', ';;', 'if()', '=>', 'null', 'git', 'gcp', 'lab'];
+
+    function spawnSymbol() {
+        const span = document.createElement('span');
+        span.className = 'code-symbol';
+        span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+        span.style.color = colors[Math.floor(Math.random() * colors.length)];
+        span.style.left = Math.random() * 100 + 'vw';
+        span.style.animationDuration = (Math.random() * 8 + 12) + 's';
+        span.style.animationDelay = -(Math.random() * 20) + 's';
+        canvas.appendChild(span);
+    }
+    for (let i = 0; i < 15; i++) spawnSymbol();
+
+    // Easter egg: kliknij logo 5x
+    let logoClicks = 0;
+    let logoTimer = null;
+    let eggActive = false;
+    const branding = document.getElementById('branding');
+    const mainLogo = document.getElementById('main-logo');
+    const terminalText = document.getElementById('terminal-text');
+    const originalHTML = terminalText.innerHTML;
+
+    branding.addEventListener('click', () => {
+        if (eggActive) return;
+        logoClicks++;
+        clearTimeout(logoTimer);
+        logoTimer = setTimeout(() => { logoClicks = 0; }, 1800);
+        if (logoClicks >= 5) {
+            logoClicks = 0;
+            triggerEgg();
+        }
+    });
+
+    function triggerEgg() {
+        eggActive = true;
+        branding.style.cursor = 'default';
+        mainLogo.classList.remove('shaking');
+        void mainLogo.offsetWidth;
+        mainLogo.classList.add('shaking');
+        mainLogo.addEventListener('animationend', () => mainLogo.classList.remove('shaking'), { once: true });
+
+        terminalText.innerHTML = originalHTML +
+            `<br><span style="color:var(--yellow)">[???]</span> Ktoś tu jest ciekawski... 👀<br>` +
+            `<span style="color:var(--green)">[OK]</span>&nbsp; Ale Corgi to akceptuje. 🐕`;
+
+        for (let i = 0; i < 10; i++) {
+            setTimeout(() => {
+                const s = document.createElement('span');
+                s.className = 'code-symbol';
+                s.innerText = ['⭐', '🌟', '✦', '◆'][Math.floor(Math.random() * 4)];
+                s.style.color = colors[Math.floor(Math.random() * colors.length)];
+                s.style.left = Math.random() * 100 + 'vw';
+                s.style.animationName = 'fallStar';
+                s.style.animationDuration = (2.5 + Math.random()) + 's';
+                s.style.animationDelay = '0s';
+                s.style.animationTimingFunction = 'linear';
+                s.style.animationFillMode = 'forwards';
+                s.style.opacity = '0.75';
+                canvas.appendChild(s);
+                setTimeout(() => s.remove(), 4000);
+            }, i * 80);
+        }
+
+        setTimeout(() => {
+            terminalText.innerHTML = originalHTML;
+        }, 4500);
+
+        setTimeout(() => {
+            eggActive = false;
+            branding.style.cursor = 'pointer';
+        }, 4800);
+    }
+
+    // Easter egg: Konami code → corgi
+    const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    let konamiIdx = 0;
+    let corgiActive = false;
+    const corgiPopup = document.getElementById('corgi-popup');
+    const woofBubble = document.getElementById('woof-bubble');
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === KONAMI[konamiIdx]) {
+            konamiIdx++;
+            if (konamiIdx === KONAMI.length) {
+                konamiIdx = 0;
+                triggerCorgi();
+            }
+        } else {
+            konamiIdx = (e.key === KONAMI[0]) ? 1 : 0;
+        }
+    });
+
+    function triggerCorgi() {
+        if (corgiActive) return;
+        corgiActive = true;
+        corgiPopup.classList.add('peeking');          // slide up (0.9s)
+        setTimeout(() => woofBubble.classList.add('show'), 1050);    // woof po zatrzymaniu
+        setTimeout(() => woofBubble.classList.remove('show'), 2600); // woof znika
+        setTimeout(() => corgiPopup.classList.remove('peeking'), 3000); // slide down (0.9s)
+        setTimeout(() => { corgiActive = false; }, 4000);            // unlock
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+services:
+  gdgpw-workshop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gdgpw-workshop
+    restart: always
+    ports:
+      - "8098:80"
