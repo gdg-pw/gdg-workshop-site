@@ -1,29 +1,59 @@
-# Warsztaty GDG on Campus PW
+<div align="center">
+  <img src="assets/logo.webp" alt="GDG on Campus PW" width="140" />
 
-Strona, którą pokazujemy na warsztatach [GDG on Campus Politechnika Warszawska](https://gdg.community.dev/gdg-on-campus-politechnika-warszawska-warsaw-poland/): temat, kiedy i gdzie, co przygotować, linki do materiałów i ankieta na koniec. Jedna strona na wszystkie warsztaty: przed każdym podmieniamy tylko dane w `js/data.js`.
+  <h1>Warsztaty GDG</h1>
+  <p>Jedna strona na każde warsztaty. Zmieniasz jeden plik, reszta się układa.</p>
 
-Czysty HTML, CSS i JS, bez buildów i zależności. Wygląd i układ plików jak w [gdg-jam-jar](https://github.com/gdg-pw/gdg-jam-jar).
+  <img src="https://img.shields.io/badge/szablon-js%2Fdata.js-FBBC04?style=for-the-badge&labelColor=181818" alt="Szablon: js/data.js" />
 
-## Przygotowanie strony pod warsztat
+  <br/><br/>
 
-Wszystko w `js/data.js`. Puste pole albo pusta lista chowa swoją sekcję razem z linkiem w menu, więc w HTML-u nic nie trzeba usuwać.
+  <img src="https://img.shields.io/badge/HTML-E34F26?style=flat-square&logo=html5&logoColor=white&labelColor=181818" alt="HTML" />
+  <img src="https://img.shields.io/badge/CSS-663399?style=flat-square&logo=css&logoColor=white&labelColor=181818" alt="CSS" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black&labelColor=181818" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/nginx-009639?style=flat-square&logo=nginx&logoColor=white&labelColor=181818" alt="nginx" />
+</div>
 
-1. `WORKSHOP`: temat, jedno zdanie opisu, kiedy i gdzie.
-2. `TERMINAL`: trzy, cztery linijki w terminalu pod logo.
-3. `PREP`: co zrobić przed startem (laptop, instalacje, konta).
-4. `MATERIALS`: karty z linkami do repo, codelabów, slajdów.
-5. `SURVEY_URL`: link do ankiety. Można dodać pod koniec warsztatu.
+---
 
-Po warsztacie wyczyść `WORKSHOP.title`, `PREP`, `MATERIALS` i `SURVEY_URL`, a w `TERMINAL` przywróć teksty „wkrótce”. Strona wraca wtedy do trybu „Następne już wkrótce” z przyciskiem do Discorda.
+<table>
+  <tr>
+    <td align="center"><img src=".github/readme/soon.webp" alt="Strona między warsztatami" /><br/><sub>Między warsztatami</sub></td>
+    <td align="center"><img src=".github/readme/live.webp" alt="Strona w dniu warsztatów" /><br/><sub>W dniu warsztatów (dane przykładowe)</sub></td>
+  </tr>
+</table>
 
-### Przykład: warsztat Flutter (maj 2026)
+Strona, którą pokazujemy na warsztatach [GDG on Campus PW](https://gdg.community.dev/gdg-on-campus-politechnika-warszawska-warsaw-poland/): temat, kiedy i gdzie, co przygotować, linki do materiałów i ankieta na koniec. Między warsztatami sama przechodzi w tryb „Następne już wkrótce” z linkiem do Discorda.
+
+---
+
+## 🧩 Wszystko z jednego pliku
+
+<div align="center">
+  <img src=".github/readme/materials.webp" alt="Karty z materiałami" width="900" />
+</div>
+
+Przed warsztatem zmieniasz tylko `js/data.js`. Puste pole chowa swoją sekcję razem z linkiem w menu.
+
+| W `js/data.js` | Na stronie |
+|----------------|------------|
+| `WORKSHOP` | Temat, opis, kiedy i gdzie |
+| `TERMINAL` | Linijki w terminalu pod logo |
+| `PREP` | Sekcja „Zanim zaczniemy” |
+| `MATERIALS` | Karty z linkami, ramki w kolorach GDG po kolei |
+| `SURVEY_URL` | Ankieta na koniec |
+
+Po warsztacie wyczyść pola, a w `TERMINAL` przywróć teksty „wkrótce”.
+
+<details>
+<summary><b>Przykład: warsztat Flutter + Gemini</b></summary>
 
 ```js
 const WORKSHOP = {
   title: "Flutter + Gemini",
   desc:  "Zrobisz pierwszą aplikację we Flutterze, podłączysz do niej Gemini i wytrenujesz agenta do gry.",
   date:  "19 maja 2026, 18:00",
-  place: "Gmach Elektroniki, s. 161",
+  place: "Politechnika Warszawska",
 };
 
 const TERMINAL = [
@@ -46,42 +76,32 @@ const MATERIALS = [
 ];
 ```
 
-Daty i miejsca w przykładzie są poglądowe.
+Data i miejsce są przykładowe.
 
-## Uruchomienie
+</details>
 
-Otwórz `index.html` w przeglądarce albo postaw prosty serwer:
+---
 
-```bash
-python3 -m http.server 8000
-```
+## 📱 Na telefonie
 
-i wejdź na http://localhost:8000.
+<table>
+  <tr>
+    <td align="center"><img src=".github/readme/mobile.webp" alt="Start na telefonie" width="260" /></td>
+    <td align="center"><img src=".github/readme/mobile-materials.webp" alt="Materiały na telefonie" width="260" /></td>
+  </tr>
+</table>
 
-## Gdzie co zmieniać
+---
 
-| Co                                                  | Plik                 |
-|-----------------------------------------------------|----------------------|
-| Temat, terminal, kroki, materiały, ankieta          | `js/data.js`         |
-| Stałe teksty, socials, OG tagi                      | `index.html`         |
-| Kolory, czcionki, zaokrąglenia                      | `css/variables.css`  |
-| Przyciski, karty materiałów, plakietki, kroki       | `css/components.css` |
-| Terminal, tło, logo, corgi                          | `css/effects.css`    |
-| Wypełnianie strony danymi                           | `js/workshop.js`     |
-| Symbole w tle, easter eggi                          | `js/effects.js`      |
-| Logo, favicon, corgi, obrazek do podglądu linku     | `assets/`            |
+## Pod maską
 
-Czcionki to Google Sans Flex (tekst) i Google Sans Code (terminal) z Google Fonts.
+- Czysty HTML, CSS i JS. Bez buildów i zależności. Wygląd jak w [gdg-jam-jar](https://github.com/gdg-pw/gdg-jam-jar).
+- Podgląd linku (OG tagi i `assets/og.jpg`) jest ogólny, więc nie trzeba go zmieniać co warsztat.
+- Lokalnie: `python3 -m http.server` albo `docker compose up --build` i http://localhost:8098.
+- Easter eggi: kliknij logo 5 razy albo wpisz `↑ ↑ ↓ ↓ ← → ← → B A`.
 
-Obrazek podglądu linku (`assets/og.jpg`) i OG tagi są ogólne („Warsztaty GDG”), więc nie trzeba ich zmieniać co warsztat.
+---
 
-## Easter eggi
-
-- Kliknij duże logo 5 razy.
-- Konami code: ↑ ↑ ↓ ↓ ← → ← → B A
-
-## Deploy
-
-Kontener z `Dockerfile` (nginx), port `8098`. Lokalnie tak samo jak na serwerze: `docker compose up --build` i http://localhost:8098.
-
-Każdy nowy plik w repo trafia na stronę, chyba że jest wpisany w `.dockerignore`. Portu i nazwy kontenera w `docker-compose.yml` nie zmieniaj, opiera się na nich konfiguracja serwera GDG.
+<div align="center">
+  <sub><a href="https://gdg.community.dev/gdg-on-campus-politechnika-warszawska-warsaw-poland/">GDG on Campus PW</a> &nbsp;·&nbsp; <a href="https://discord.com/invite/vNW4vXVwqH">Discord</a></sub>
+</div>
