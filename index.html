@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Tytuł karty z tematem warsztatu ustawia js/workshop.js -->
+  <title>Warsztaty | GDG on Campus PW</title>
+  <meta name="description" content="Linki i materiały z warsztatów GDG on Campus Politechnika Warszawska w jednym miejscu.">
+
+  <!-- Podgląd linku (Discord, Messenger, FB, LinkedIn). Ogólny, żeby nie trzeba go zmieniać co warsztat. og:url i og:image muszą mieć pełny adres -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GDG on Campus PW">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:title" content="Warsztaty GDG on Campus PW">
+  <meta property="og:description" content="Wszystkie linki i materiały z warsztatów w jednym miejscu.">
+  <meta property="og:url" content="https://workshop.gdgpw.pl/">
+  <meta property="og:image" content="https://workshop.gdgpw.pl/assets/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logo GDG on Campus PW i napis Warsztaty GDG">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon.png">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+
+  <!-- Fonty z Google Fonts: Google Sans Flex (tekst) + Google Sans Code (terminal). Zmiana też w css/variables.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;600;700;800&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Kolejność ma znaczenie: variables -> base -> layout -> components -> effects -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/effects.css">
+</head>
+<body>
+
+  <!-- Tło z pływającymi symbolami (wypełnia js/effects.js) -->
+  <div id="bg-canvas"></div>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a class="brand" href="#top"><img class="logo-img" src="assets/logo-mark.webp" alt=""><span class="brand-text">Google Developer Group<br><small>on Campus PW</small></span></a>
+      <!-- Link znika razem z pustą sekcją (data-section = id sekcji) -->
+      <nav class="nav">
+        <a href="#prep" data-section="prep">Na start</a>
+        <a href="#materials" data-section="materials">Materiały</a>
+        <a href="#survey" data-section="survey">Ankieta</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO: tytuł, opis, kiedy/gdzie wypełnia js/workshop.js z WORKSHOP (js/data.js) -->
+    <section class="hero">
+      <div class="container">
+        <!-- Kliknij 5x = easter egg -->
+        <img id="main-logo" class="main-logo" src="assets/logo.webp" alt="GDG on Campus PW">
+
+        <h1>Warsztaty GDG<br><span id="hero-title" class="gradient-text">Następne już wkrótce</span></h1>
+        <p id="hero-desc" class="muted">Śledź nas na Discordzie, żeby nie przegapić zapisów.</p>
+        <ul id="hero-meta" class="chips"></ul>
+        <a id="hero-btn" class="btn btn-primary" href="#">Dołącz na Discorda</a>
+
+        <!-- Terminal (+ corgi pod spodem). Teksty: TERMINAL w js/data.js -->
+        <div class="terminal-wrapper">
+          <div class="corgi-popup" id="corgi-popup">
+            <div class="woof-bubble" id="woof-bubble">woof!</div>
+            <img src="assets/popup.webp" alt="">
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <div class="dot red"></div>
+              <div class="dot yellow"></div>
+              <div class="dot green"></div>
+            </div>
+            <div class="terminal-text" id="terminal-text"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZANIM ZACZNIEMY: PREP w js/data.js -->
+    <section id="prep" class="section" hidden>
+      <div class="container">
+        <h2>Zanim zaczniemy</h2>
+        <div class="card">
+          <ol id="prep-list" class="steps"></ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- MATERIAŁY: MATERIALS w js/data.js -->
+    <section id="materials" class="section" hidden>
+      <div class="container">
+        <h2>Materiały</h2>
+        <div id="materials-grid" class="grid"></div>
+      </div>
+    </section>
+
+    <!-- ANKIETA: SURVEY_URL w js/data.js -->
+    <section id="survey" class="section" hidden>
+      <div class="container center">
+        <h2>Jak było?</h2>
+        <p class="muted">Anonimowa ankieta, 2 minuty. Pomoże nam zrobić kolejne warsztaty lepiej.</p>
+        <a id="btn-survey" class="btn btn-primary" href="#" target="_blank" rel="noopener">Wypełnij ankietę</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <!-- Socials: usuń cały <a>...</a>, żeby wyłączyć -->
+      <div class="socials">
+        <a class="social-link" href="https://gdg.community.dev/gdg-on-campus-politechnika-warszawska-warsaw-poland/" target="_blank" rel="noopener">
+          <img src="assets/socials/gdg.svg" width="22" height="22" alt=""><span>GDG Community</span>
+        </a>
+        <a class="social-link" href="https://www.instagram.com/gdg_pw/" target="_blank" rel="noopener">
+          <img src="assets/socials/instagram.svg" width="22" height="22" alt=""><span>Instagram</span>
+        </a>
+        <a class="social-link" href="https://www.facebook.com/gdg.pw" target="_blank" rel="noopener">
+          <img src="assets/socials/facebook.svg" width="22" height="22" alt=""><span>Facebook</span>
+        </a>
+        <a class="social-link" href="https://discord.com/invite/vNW4vXVwqH" target="_blank" rel="noopener">
+          <img src="assets/socials/discord.svg" width="22" height="22" alt=""><span>Discord</span>
+        </a>
+        <a class="social-link" href="https://www.linkedin.com/company/google-developer-group-pw/" target="_blank" rel="noopener">
+          <img src="assets/socials/linkedin.svg" width="22" height="22" alt=""><span>LinkedIn</span>
+        </a>
+      </div>
+      <p class="muted small">GDG on Campus Politechnika Warszawska</p>
+    </div>
+  </footer>
+
+  <!-- Zwykłe skrypty (nie moduły), żeby działało też po dwukliku na index.html -->
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/workshop.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

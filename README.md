@@ -1,53 +1,87 @@
-# GDG On Campus PW — Workshop Site
+# Warsztaty GDG on Campus PW
 
-Strona landing page dla warsztatów GDG On Campus PW. Zawiera linki do materiałów warsztatowych oraz sociale koła.
+Strona, którą pokazujemy na warsztatach [GDG on Campus Politechnika Warszawska](https://gdg.community.dev/gdg-on-campus-politechnika-warszawska-warsaw-poland/): temat, kiedy i gdzie, co przygotować, linki do materiałów i ankieta na koniec. Jedna strona na wszystkie warsztaty: przed każdym podmieniamy tylko dane w `js/data.js`.
 
-## Stack
+Czysty HTML, CSS i JS, bez buildów i zależności. Wygląd i układ plików jak w [gdg-jam-jar](https://github.com/gdg-pw/gdg-jam-jar).
 
-- Vanilla HTML/CSS/JS — `site/index.html`
-- nginx:alpine w Docker
-- Port: `8098:80`
+## Przygotowanie strony pod warsztat
 
-## Struktura
+Wszystko w `js/data.js`. Puste pole albo pusta lista chowa swoją sekcję razem z linkiem w menu, więc w HTML-u nic nie trzeba usuwać.
 
+1. `WORKSHOP`: temat, jedno zdanie opisu, kiedy i gdzie.
+2. `TERMINAL`: trzy, cztery linijki w terminalu pod logo.
+3. `PREP`: co zrobić przed startem (laptop, instalacje, konta).
+4. `MATERIALS`: karty z linkami do repo, codelabów, slajdów.
+5. `SURVEY_URL`: link do ankiety. Można dodać pod koniec warsztatu.
+
+Po warsztacie wyczyść `WORKSHOP.title`, `PREP`, `MATERIALS` i `SURVEY_URL`, a w `TERMINAL` przywróć teksty „wkrótce”. Strona wraca wtedy do trybu „Następne już wkrótce” z przyciskiem do Discorda.
+
+### Przykład: warsztat Flutter (maj 2026)
+
+```js
+const WORKSHOP = {
+  title: "Flutter + Gemini",
+  desc:  "Zrobisz pierwszą aplikację we Flutterze, podłączysz do niej Gemini i wytrenujesz agenta do gry.",
+  date:  "19 maja 2026, 18:00",
+  place: "Gmach Elektroniki, s. 161",
+};
+
+const TERMINAL = [
+  ["INIT", "green",  "Witaj na warsztacie GDG on Campus PW!"],
+  ["INFO", "blue",   "Poniżej znajdziesz wszystkie potrzebne linki"],
+  ["TODO", "yellow", "Zacznij od instalacji Fluttera na swoim urządzeniu ↓"],
+];
+
+const PREP = [
+  "Weź laptopa z ładowarką.",
+  "Zainstaluj Fluttera według <a href=\"https://github.com/gdg-pw/workshop-flutter\" target=\"_blank\" rel=\"noopener\">instrukcji</a>.",
+  "Sprawdź instalację: <code>flutter doctor</code>.",
+];
+
+const MATERIALS = [
+  { tag: "GIT", label: "Flutter Installation", title: "Jak pobrać Fluttera?",               desc: "Instrukcja instalacji na różne systemy (w README)",         url: "https://github.com/gdg-pw/workshop-flutter" },
+  { tag: "LAB", label: "Codelab #1",           title: "Pierwsza aplikacja we Flutterze",    desc: "Podstawy Fluttera na przykładzie pierwszej aplikacji",     url: "https://codelabs.developers.google.com/codelabs/flutter-codelab-first?hl=pl#0" },
+  { tag: "LAB", label: "Codelab #2",           title: "Łączymy Gemini z Flutterem",         desc: "Narzędzie, które dobiera kolory na podstawie opisu",       url: "https://codelabs.developers.google.com/codelabs/flutter-gemini-colorist?hl=pl#0" },
+  { tag: "LAB", label: "Codelab #3",           title: "Uczymy agenta do rozwiązywania gry", desc: "Gra podobna do Bitwy morskiej i agent, z którym zagramy", url: "https://codelabs.developers.google.com/tfagents-flutter/?hl=pl#0" },
+];
 ```
-site/
-├── index.html        # cała strona
-├── logo.svg          # logo GDG On Campus PW
-├── icon.png          # favicon
-├── popup.png         # corgi (easter egg)
-└── socials/          # ikony SVG social mediów
-    ├── discord.svg
-    ├── facebook.svg
-    ├── gdg.svg
-    ├── instagram.svg
-    └── linkedin.svg
-```
+
+Daty i miejsca w przykładzie są poglądowe.
 
 ## Uruchomienie
 
-```bash
-# lokalnie (Python)
-cd site && python3 -m http.server 8080
+Otwórz `index.html` w przeglądarce albo postaw prosty serwer:
 
-# Docker
-docker compose up -d
+```bash
+python3 -m http.server 8000
 ```
 
-## Aktualizacja linków przed warsztatem
+i wejdź na http://localhost:8000.
 
-W `site/index.html` znajdź sekcję `// materiały warsztatowe` i podmień `href` w kartach:
+## Gdzie co zmieniać
 
-| Klasa karty | Co linkuje              |
-|-------------|-------------------------|
-| `.gcp`      | instrukcja/repo startowe |
-| `.lab1`     | Codelab #1              |
-| `.lab2`     | Codelab #2              |
-| `.lab3`     | Codelab #3              |
+| Co                                                  | Plik                 |
+|-----------------------------------------------------|----------------------|
+| Temat, terminal, kroki, materiały, ankieta          | `js/data.js`         |
+| Stałe teksty, socials, OG tagi                      | `index.html`         |
+| Kolory, czcionki, zaokrąglenia                      | `css/variables.css`  |
+| Przyciski, karty materiałów, plakietki, kroki       | `css/components.css` |
+| Terminal, tło, logo, corgi                          | `css/effects.css`    |
+| Wypełnianie strony danymi                           | `js/workshop.js`     |
+| Symbole w tle, easter eggi                          | `js/effects.js`      |
+| Logo, favicon, corgi, obrazek do podglądu linku     | `assets/`            |
 
-Tekst w `.card-title` i `.card-desc` też warto dostosować do tematu warsztatów.
+Czcionki to Google Sans Flex (tekst) i Google Sans Code (terminal) z Google Fonts.
+
+Obrazek podglądu linku (`assets/og.jpg`) i OG tagi są ogólne („Warsztaty GDG”), więc nie trzeba ich zmieniać co warsztat.
 
 ## Easter eggi
 
-- **Kliknij logo 5x** — logo drży, spadają gwiazdki
-- **Konami code** (↑↑↓↓←→←→BA) — corgi wyskakuje zza terminala i szczeka
+- Kliknij duże logo 5 razy.
+- Konami code: ↑ ↑ ↓ ↓ ← → ← → B A
+
+## Deploy
+
+Kontener z `Dockerfile` (nginx), port `8098`. Lokalnie tak samo jak na serwerze: `docker compose up --build` i http://localhost:8098.
+
+Każdy nowy plik w repo trafia na stronę, chyba że jest wpisany w `.dockerignore`. Portu i nazwy kontenera w `docker-compose.yml` nie zmieniaj, opiera się na nich konfiguracja serwera GDG.

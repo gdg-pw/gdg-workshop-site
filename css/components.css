@@ -1,0 +1,63 @@
+/* Komponenty: przyciski, karty, plakietki, materiały, kroki */
+
+/* ---------- Przyciski ---------- */
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  font: inherit; font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn-primary   { background: var(--primary);   color: var(--on-accent); }
+.btn-primary:hover   { box-shadow: var(--glow); color: var(--on-accent); }
+
+.btn-secondary { background: var(--secondary); color: var(--on-accent); }
+.btn-secondary:hover { box-shadow: 0 0 24px color-mix(in srgb, var(--secondary) 40%, transparent); color: var(--on-accent); }
+
+.btn-ghost { background: transparent; color: var(--text-main); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+
+/* ---------- Karty ---------- */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+a.card { display: block; color: inherit; }
+a.card:hover { transform: translateY(-4px); border-color: var(--secondary); }
+
+/* ---------- Kiedy / gdzie (hero) ---------- */
+.chips { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin: 1.25rem 0 0.5rem; }
+.chips:empty { display: none; }
+.chips li {
+  padding: 0.35rem 0.9rem;
+  background: var(--bg-chip);
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+.chip-key { font-family: var(--font-mono); color: var(--text-muted); margin-right: 0.25rem; }
+
+/* ---------- Materiały ---------- */
+.link-card { --c: var(--secondary); border-color: color-mix(in srgb, var(--c) 45%, var(--border)); }
+a.link-card:hover { border-color: var(--c); box-shadow: 0 0 24px color-mix(in srgb, var(--c) 25%, transparent); }
+.c-red    { --c: var(--red); }
+.c-green  { --c: var(--green); }
+.c-blue   { --c: var(--blue); }
+.c-yellow { --c: var(--yellow); }
+
+.card-prefix { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.card-title  { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; font-size: 1.15rem; line-height: 1.3; margin-bottom: 0.4rem; }
+.card-arrow  { color: var(--c); opacity: 0.5; flex-shrink: 0; transition: opacity 0.2s, transform 0.2s; }
+a.link-card:hover .card-arrow { opacity: 1; transform: translateX(4px); }
+.card-desc   { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
+
+/* ---------- Zanim zaczniemy ---------- */
+.steps { padding-left: 1.4rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.steps li::marker { color: var(--primary); font-weight: 700; }

@@ -1,0 +1,50 @@
+/* Układ: kontener, header, sekcje, siatka, footer */
+
+.container { max-width: var(--width); margin: 0 auto; padding: 0 1.25rem; }
+
+/* Header */
+html { scroll-padding-top: 60px; }   /* = wysokość headera, nagłówki sekcji nie chowają się pod nim */
+.header {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--bg-dark) var(--header-opacity), transparent);
+  -webkit-backdrop-filter: blur(var(--header-blur));
+  backdrop-filter: blur(var(--header-blur));
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  display: flex; justify-content: space-between; align-items: center; height: 60px;
+  max-width: calc(var(--width) + var(--header-shift) * 2);  /* szerszy header = logo i menu wędrują na boki */
+}
+.brand { display: flex; align-items: center; gap: 0.7rem; color: var(--text-main); }
+.brand:hover { color: var(--text-main); }
+.brand-text { font-size: 0.95rem; font-weight: 600; line-height: 1.2; }
+.brand-text small { font-size: inherit; font-weight: 400; color: var(--text-muted); }
+.nav { display: flex; gap: 1.25rem; }
+.nav a { color: var(--text-muted); font-size: 0.95rem; }
+.nav a:hover { color: var(--primary); }
+
+/* Hero */
+.hero { padding: 6rem 0 4rem; text-align: center; }
+.hero p { margin: 1rem 0; }
+.hero .btn { margin-top: 1rem; }
+
+/* Sekcje */
+.section { padding: 3rem 0; }
+.section .center .btn { margin-top: 1rem; }
+
+/* Siatka materiałów: 2 kolumny na komputerze, 1 na telefonie */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); /* 340px = min. szerokość karty */
+  gap: var(--gap);
+}
+
+/* Footer */
+.footer { padding: 2rem 0; margin-top: 3rem; border-top: 1px solid var(--border); text-align: center; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .brand-text { display: none; }   /* na telefonie sam znak, inaczej menu się nie mieści */
+  .nav { gap: 0.8rem; font-size: 0.85rem; }
+  .hero { padding: 4rem 0 2rem; }
+}
